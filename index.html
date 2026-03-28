@@ -1,258 +1,203 @@
-<!DOCTYPE html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }<!DOCTYPE html>
 <html>
 <head>
-  <title>Dravio Social</title>
-    <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
+  <title>Dravio - Lyzonix</title>
 
-      <div class="navbar">
-          <h2>Dravio</h2>
-              <input placeholder="Search users..." />
-                </div>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 
-                  <div class="container">
+  <style>
+    body { margin:0; font-family:Arial; background:#000; color:#fff; }
 
-                      <!-- LOGIN -->
-                          <div id="loginBox">
-                                <h3>Login</h3>
-                                      <input id="name" placeholder="Enter Name">
-                                            <button onclick="login()">Enter App</button>
-                                                </div>
+    /* TOP BAR */
+    .top {
+      position:fixed; top:0; width:100%;
+      background:#111; padding:10px;
+      display:flex; justify-content:space-between;
+      align-items:center;
+    }
 
-                                                    <!-- FEED -->
-                                                        <div id="feed" class="hidden"></div>
+    .top h2 { color:#ff2d55; margin:0; }
 
-                                                            <!-- UPLOAD -->
-                                                                <div id="uploadBox" class="hidden">
-                                                                      <input type="text" id="caption" placeholder="Write caption">
-                                                                            <input type="file" id="image">
-                                                                                  <button onclick="uploadPost()">Post</button>
-                                                                                      </div>
+    /* NAV */
+    .nav {
+      position:fixed; bottom:0;
+      width:100%; background:#111;
+      display:flex; justify-content:space-around;
+      padding:10px;
+    }
 
-                                                                                          <!-- REELS -->
-                                                                                              <div id="reels" class="hidden"></div>
+    .nav button {
+      background:none; border:none;
+      color:white; font-size:18px;
+    }
 
-                                                                                                </div>
+    /* SCREENS */
+    .screen { padding-top:70px; padding-bottom:70px; display:none; }
 
-                                                                                                  <div class="bottomNav">
-                                                                                                      <button onclick="showFeed()">Home</button>
-                                                                                                          <button onclick="showUpload()">Upload</button>
-                                                                                                              <button onclick="showReels()">Reels</button>
-                                                                                                                </div>
+    .active { display:block; }
 
-                                                                                                                  <script src="app.js"></script>
-                                                                                                                  </body>
-                                                                                                                  </html>
-                                                                                                                  <!DOCTYPE html>
-                                                                                                                  <html>
-                                                                                                                  <head>
-                                                                                                                    <title>Dravio</title>
-                                                                                                                      <link rel="stylesheet" href="style.css">
-                                                                                                                      </head>
-                                                                                                                      <body>
+    input, button {
+      width:90%;
+      margin:10px;
+      padding:12px;
+      border-radius:10px;
+      border:none;
+    }
 
-                                                                                                                      <!-- TOP BAR -->
-                                                                                                                      <div class="topbar">
-                                                                                                                        <h2>DRAVIO</h2>
-                                                                                                                          <p>by Lyzonix</p>
-                                                                                                                          </div>
+    button { background:#ff2d55; color:white; }
 
-                                                                                                                          <!-- LOGIN SCREEN -->
-                                                                                                                          <div id="login" class="screen">
-                                                                                                                            <h1>Welcome to Dravio</h1>
-                                                                                                                              <input id="user" placeholder="Enter Username">
-                                                                                                                                <button onclick="login()">Continue</button>
-                                                                                                                                </div>
+    /* POSTS */
+    .post {
+      background:#111;
+      margin:10px;
+      padding:10px;
+      border-radius:10px;
+    }
 
-                                                                                                                                <!-- MAIN APP -->
-                                                                                                                                <div id="app" class="hidden">
+    img { width:100%; border-radius:10px; }
 
-                                                                                                                                  <!-- NAV -->
-                                                                                                                                    <div class="nav">
-                                                                                                                                        <button onclick="showFeed()">🏠</button>
-                                                                                                                                            <button onclick="showReels()">🎬</button>
-                                                                                                                                                <button onclick="showUpload()">➕</button>
-                                                                                                                                                  </div>
+    /* SEARCH */
+    .searchBox {
+      width:90%;
+      margin:10px;
+      padding:10px;
+    }
+  </style>
+</head>
 
-                                                                                                                                                    <!-- FEED -->
-                                                                                                                                                      <div id="feed" class="section"></div>
+<body>
 
-                                                                                                                                                        <!-- UPLOAD -->
-                                                                                                                                                          <div id="upload" class="section hidden">
-                                                                                                                                                              <input type="text" id="caption" placeholder="Write caption">
-                                                                                                                                                                  <input type="file" id="file">
-                                                                                                                                                                      <button onclick="upload()">Post</button>
-                                                                                                                                                                        </div>
+<!-- TOP -->
+<div class="top">
+  <h2>DRAVIO</h2>
+  <span>Lyzonix</span>
+</div>
 
-                                                                                                                                                                          <!-- REELS -->
-                                                                                                                                                                            <div id="reels" class="section hidden"></div>
+<!-- LOGIN -->
+<div id="login" class="screen active">
+  <h3>Login / Signup</h3>
 
-                                                                                                                                                                            </div>
+  <input id="email" placeholder="Email or Phone">
+  <input id="password" placeholder="Password">
 
-                                                                                                                                                                            <script src="app.js"></script>
-                                                                                                                                                                            </body>
-                                                                                                                                                                            </html>
-                                                                                                                                                                            body {
-                                                                                                                                                                                  margin: 0;
-                                                                                                                                                                                    font-family: Arial;
-                                                                                                                                                                                      background: black;
-                                                                                                                                                                                        color: white;
-                                                                                                                                                                                        }
+  <button onclick="signup()">Signup</button>
+  <button onclick="login()">Login</button>
+</div>
 
-                                                                                                                                                                                        /* TOP BAR */
-                                                                                                                                                                                        .topbar {
-                                                                                                                                                                                          background: #111;
-                                                                                                                                                                                            padding: 10px;
-                                                                                                                                                                                              text-align: center;
-                                                                                                                                                                                                border-bottom: 1px solid #333;
-                                                                                                                                                                                                }
+<!-- HOME FEED -->
+<div id="home" class="screen">
+  <h3>Feed</h3>
+  <div id="posts"></div>
+</div>
 
-                                                                                                                                                                                                .topbar h2 {
-                                                                                                                                                                                                  margin: 0;
-                                                                                                                                                                                                    color: #ff2d55;
-                                                                                                                                                                                                    }
+<!-- SEARCH -->
+<div id="search" class="screen">
+  <input class="searchBox" placeholder="Search users...">
+</div>
 
-                                                                                                                                                                                                    /* LOGIN */
-                                                                                                                                                                                                    .screen {
-                                                                                                                                                                                                      text-align: center;
-                                                                                                                                                                                                        margin-top: 100px;
-                                                                                                                                                                                                        }
+<!-- UPLOAD -->
+<div id="upload" class="screen">
+  <input id="caption" placeholder="Write caption">
+  <input type="file" id="file">
+  <button onclick="post()">Upload Post</button>
+</div>
 
-                                                                                                                                                                                                        input {
-                                                                                                                                                                                                          padding: 12px;
-                                                                                                                                                                                                            width: 80%;
-                                                                                                                                                                                                              margin: 10px;
-                                                                                                                                                                                                                border-radius: 10px;
-                                                                                                                                                                                                                  border: none;
-                                                                                                                                                                                                                  }
+<!-- PROFILE -->
+<div id="profile" class="screen">
+  <h3>Your Profile</h3>
+  <p id="userInfo"></p>
+</div>
 
-                                                                                                                                                                                                                  button {
-                                                                                                                                                                                                                    padding: 12px;
-                                                                                                                                                                                                                      width: 85%;
-                                                                                                                                                                                                                        background: #ff2d55;
-                                                                                                                                                                                                                          border: none;
-                                                                                                                                                                                                                            color: white;
-                                                                                                                                                                                                                              border-radius: 10px;
-                                                                                                                                                                                                                              }
+<!-- NAV -->
+<div class="nav">
+  <button onclick="show('home')">🏠</button>
+  <button onclick="show('search')">🔍</button>
+  <button onclick="show('upload')">➕</button>
+  <button onclick="show('profile')">👤</button>
+</div>
 
-                                                                                                                                                                                                                              /* NAV */
-                                                                                                                                                                                                                              .nav {
-                                                                                                                                                                                                                                position: fixed;
-                                                                                                                                                                                                                                  bottom: 0;
-                                                                                                                                                                                                                                    width: 100%;
-                                                                                                                                                                                                                                      display: flex;
-                                                                                                                                                                                                                                        justify-content: space-around;
-                                                                                                                                                                                                                                          background: #111;
-                                                                                                                                                                                                                                            padding: 10px;
-                                                                                                                                                                                                                                            }
+<script>
+/* FIREBASE CONFIG (ADD YOURS) */
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  projectId: "YOUR_ID",
+};
+firebase.initializeApp(firebaseConfig);
 
-                                                                                                                                                                                                                                            .nav button {
-                                                                                                                                                                                                                                              width: 60px;
-                                                                                                                                                                                                                                                font-size: 20px;
-                                                                                                                                                                                                                                                }
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-                                                                                                                                                                                                                                                /* POST */
-                                                                                                                                                                                                                                                .post {
-                                                                                                                                                                                                                                                  background: #111;
-                                                                                                                                                                                                                                                    margin: 10px;
-                                                                                                                                                                                                                                                      padding: 10px;
-                                                                                                                                                                                                                                                        border-radius: 15px;
-                                                                                                                                                                                                                                                        }
+/* NAV */
+function show(page){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+}
 
-                                                                                                                                                                                                                                                        .post img {
-                                                                                                                                                                                                                                                          width: 100%;
-                                                                                                                                                                                                                                                            border-radius: 10px;
-                                                                                                                                                                                                                                                            }
+/* SIGNUP */
+function signup(){
+  let email = document.getElementById("email").value;
+  let pass = document.getElementById("password").value;
 
-                                                                                                                                                                                                                                                            /* REELS */
-                                                                                                                                                                                                                                                            .reel {
-                                                                                                                                                                                                                                                              height: 100vh;
-                                                                                                                                                                                                                                                                scroll-snap-align: start;
-                                                                                                                                                                                                                                                                }
+  auth.createUserWithEmailAndPassword(email, pass)
+  .then(u=>{
+    alert("Account Created");
+    show('home');
+    loadPosts();
+  });
+}
 
-                                                                                                                                                                                                                                                                #reels {
-                                                                                                                                                                                                                                                                  height: 100vh;
-                                                                                                                                                                                                                                                                    overflow-y: scroll;
-                                                                                                                                                                                                                                                                      scroll-snap-type: y mandatory;
-                                                                                                                                                                                                                                                                      }
+/* LOGIN */
+function login(){
+  let email = document.getElementById("email").value;
+  let pass = document.getElementById("password").value;
 
-                                                                                                                                                                                                                                                                      /* HIDE */
-                                                                                                                                                                                                                                                                      .hidden {
-                                                                                                                                                                                                                                                                        display: none;
-                                                                                                                                                                                                                                                                        }
-                                                                                                                                                                                                                                                                        let username = "";
-                                                                                                                                                                                                                                                                        let posts = [];
+  auth.signInWithEmailAndPassword(email, pass)
+  .then(u=>{
+    alert("Logged In");
+    show('home');
+    loadPosts();
+  });
+}
 
-                                                                                                                                                                                                                                                                        function login() {
-                                                                                                                                                                                                                                                                          username = document.getElementById("user").value;
+/* POST */
+function post(){
+  let caption = document.getElementById("caption").value;
+  let file = document.getElementById("file").files[0];
 
-                                                                                                                                                                                                                                                                            document.getElementById("login").classList.add("hidden");
-                                                                                                                                                                                                                                                                              document.getElementById("app").classList.remove("hidden");
+  let reader = new FileReader();
+  reader.onload = function(){
+    db.collection("posts").add({
+      caption: caption,
+      image: reader.result,
+      time: Date.now()
+    });
+  }
+  reader.readAsDataURL(file);
 
-                                                                                                                                                                                                                                                                                loadFeed();
-                                                                                                                                                                                                                                                                                }
+  alert("Posted!");
+}
 
-                                                                                                                                                                                                                                                                                /* UPLOAD POST */
-                                                                                                                                                                                                                                                                                function upload() {
-                                                                                                                                                                                                                                                                                  let caption = document.getElementById("caption").value;
-                                                                                                                                                                                                                                                                                    let file = document.getElementById("file").files[0];
+/* LOAD POSTS */
+function loadPosts(){
+  db.collection("posts").orderBy("time","desc")
+  .onSnapshot(snapshot=>{
+    let html = "";
+    snapshot.forEach(doc=>{
+      let p = doc.data();
+      html += `
+        <div class="post">
+          <p>${p.caption}</p>
+          <img src="${p.image}">
+        </div>
+      `;
+    });
+    document.getElementById("posts").innerHTML = html;
+  });
+}
+</script>
 
-                                                                                                                                                                                                                                                                                      let img = URL.createObjectURL(file);
-
-                                                                                                                                                                                                                                                                                        posts.unshift({
-                                                                                                                                                                                                                                                                                            user: username,
-                                                                                                                                                                                                                                                                                                caption: caption,
-                                                                                                                                                                                                                                                                                                    image: img
-                                                                                                                                                                                                                                                                                                      });
-
-                                                                                                                                                                                                                                                                                                        alert("Posted!");
-                                                                                                                                                                                                                                                                                                          loadFeed();
-                                                                                                                                                                                                                                                                                                          }
-
-                                                                                                                                                                                                                                                                                                          /* FEED */
-                                                                                                                                                                                                                                                                                                          function loadFeed() {
-                                                                                                                                                                                                                                                                                                            let feed = document.getElementById("feed");
-                                                                                                                                                                                                                                                                                                              feed.innerHTML = "";
-
-                                                                                                                                                                                                                                                                                                                posts.forEach(p => {
-                                                                                                                                                                                                                                                                                                                    feed.innerHTML += `
-                                                                                                                                                                                                                                                                                                                          <div class="post">
-                                                                                                                                                                                                                                                                                                                                  <b>@${p.user}</b>
-                                                                                                                                                                                                                                                                                                                                          <p>${p.caption}</p>
-                                                                                                                                                                                                                                                                                                                                                  <img src="${p.image}">
-                                                                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                                                                            `;
-                                                                                                                                                                                                                                                                                                                                                              });
-                                                                                                                                                                                                                                                                                                                                                              }
-
-                                                                                                                                                                                                                                                                                                                                                              /* NAVIGATION */
-                                                                                                                                                                                                                                                                                                                                                              function showFeed() {
-                                                                                                                                                                                                                                                                                                                                                                hideAll();
-                                                                                                                                                                                                                                                                                                                                                                  document.getElementById("feed").classList.remove("hidden");
-                                                                                                                                                                                                                                                                                                                                                                  }
-
-                                                                                                                                                                                                                                                                                                                                                                  function showUpload() {
-                                                                                                                                                                                                                                                                                                                                                                    hideAll();
-                                                                                                                                                                                                                                                                                                                                                                      document.getElementById("upload").classList.remove("hidden");
-                                                                                                                                                                                                                                                                                                                                                                      }
-
-                                                                                                                                                                                                                                                                                                                                                                      function showReels() {
-                                                                                                                                                                                                                                                                                                                                                                        hideAll();
-                                                                                                                                                                                                                                                                                                                                                                          document.getElementById("reels").classList.remove("hidden");
-
-                                                                                                                                                                                                                                                                                                                                                                            let reels = document.getElementById("reels");
-                                                                                                                                                                                                                                                                                                                                                                              reels.innerHTML = `
-                                                                                                                                                                                                                                                                                                                                                                                  <div class="reel">
-                                                                                                                                                                                                                                                                                                                                                                                        <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls autoplay loop style="width:100%;height:100%"></video>
-                                                                                                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                                                                                                              `;
-                                                                                                                                                                                                                                                                                                                                                                                              }
-
-                                                                                                                                                                                                                                                                                                                                                                                              function hideAll() {
-                                                                                                                                                                                                                                                                                                                                                                                                document.getElementById("feed").classList.add("hidden");
-                                                                                                                                                                                                                                                                                                                                                                                                  document.getElementById("upload").classList.add("hidden");
-                                                                                                                                                                                                                                                                                                                                                                                                    document.getElementById("reels").classList.add("hidden");
-                                                                                                                                                                                                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                            }
+</body>
+</html>
