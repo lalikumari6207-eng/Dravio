@@ -1,155 +1,259 @@
-  <!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>DRAVIO V3 + V4 GOD MODE 🚀</title><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script><style>
-body{margin:0;font-family:Arial;background:#0b0b14;color:#fff}
-header{padding:12px;text-align:center;background:#15152a;font-weight:bold;position:sticky;top:0}
-.container{max-width:520px;margin:auto;padding:10px}
-.card{background:#1a1a33;padding:12px;border-radius:12px;margin-top:10px}
-input,textarea,button{width:100%;padding:10px;margin-top:8px;border-radius:10px;border:none}
-button{background:#ff2d55;color:#fff;font-weight:bold}
-.nav{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#111;padding:10px}
-.nav button{background:none;color:#fff;font-size:12px}
-.post img,video{width:100%;border-radius:10px;margin-top:8px}
-.storyRow{display:flex;overflow-x:auto;gap:8px;padding:8px}
-.story{min-width:55px;height:55px;border-radius:50%;background:linear-gradient(45deg,pink,purple);display:flex;align-items:center;justify-content:center;font-size:10px}
-.reel{height:70vh;background:black;border-radius:12px;overflow:hidden;position:relative;margin-top:10px}
-.reel video{width:100%;height:100%;object-fit:cover}
-.reel .txt{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,0.4);padding:5px;border-radius:8px}
-.small{font-size:12px;color:#aaa}
-.profileBox{background:#22224a;padding:12px;border-radius:12px;margin-top:10px}
-</style></head>
-<body><header>DRAVIO V3 + V4 GOD MODE 🚀</header><div class="container"><!-- AUTH --><div class="card" id="authBox">
-<h3>Login / Signup</h3>
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-<input id="username" placeholder="Username">
-<button onclick="signup()">Signup</button>
-<button onclick="login()">Login</button>
-</div><!-- STORIES --><div class="storyRow" id="stories"></div><!-- FEED --><div id="feed"></div><!-- CREATE POST --><div class="card">
-<h3>Create Post</h3>
-<textarea id="text"></textarea>
-<input type="file" id="file">
-<button onclick="post()">Post</button>
-</div><!-- STORIES UPLOAD --><div class="card">
-<h3>Upload Story</h3>
-<input type="file" id="storyFile">
-<button onclick="uploadStory()">Upload</button>
-</div><!-- REELS --><div class="card">
-<h3>Reels Upload</h3>
-<input type="file" id="reelFile">
-<button onclick="uploadReel()">Upload Reel</button>
-</div><!-- SEARCH + USERS --><div class="card">
-<h3>Search Users</h3>
-<input id="search" placeholder="Search username" onkeyup="searchUsers()">
-<div id="searchBox"></div>
-</div><!-- NOTIFICATIONS --><div class="card">
-<h3>Notifications 🔔</h3>
-<div id="notify"></div>
-</div><!-- PROFILE --><div class="profileBox" id="profile"></div><!-- DM INBOX --><div class="card">
-<h3>DM Inbox 💬</h3>
-<input id="dmTo" placeholder="To username/email">
-<input id="dmMsg" placeholder="Message">
-<button onclick="sendDM()">Send</button>
-<div id="dmBox"></div>
-</div></div><div class="nav">
-<button onclick="loadFeed()">Home</button>
-<button onclick="loadReels()">Reels</button>
-<button onclick="loadUsers()">Users</button>
-<button onclick="loadNotify()">Notify</button>
-<button onclick="loadProfile()">Profile</button>
-</div><script>
-const firebaseConfig={apiKey:"YOUR",authDomain:"YOUR",projectId:"YOUR",storageBucket:"YOUR"};
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dravio</title>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
+
+<style>
+body {font-family: Arial; text-align:center; margin:0;}
+input,button {margin:8px; padding:10px; width:85%;}
+button {background:black; color:white; border:none;}
+img,video {width:200px; margin:10px;}
+.section {display:none; padding:20px;}
+.active {display:block;}
+.nav {position:fixed; bottom:0; width:100%; display:flex; justify-content:space-around; background:#fff; padding:10px;}
+.logo {font-size:35px; font-weight:bold; margin-top:50px;}
+</style>
+</head>
+
+<body>
+
+<!-- SPLASH -->
+<div id="splash" class="section active">
+  <div class="logo">DRAVIO</div>
+  <button onclick="show('login')">Start</button>
+</div>
+
+<!-- LOGIN -->
+<div id="login" class="section">
+  <h2>Login / Signup</h2>
+  <input id="phone" placeholder="+91xxxxxxxxxx">
+  <div id="recaptcha"></div>
+  <button onclick="sendOTP()">Send OTP</button>
+</div>
+
+<!-- OTP -->
+<div id="otpBox" class="section">
+  <input id="otp" placeholder="Enter OTP">
+  <button onclick="verifyOTP()">Verify</button>
+</div>
+
+<!-- PROFILE SETUP -->
+<div id="setup" class="section">
+  <h2>Create Profile</h2>
+  <input id="name" placeholder="Name">
+  <input id="bio" placeholder="Bio">
+  <input type="file" id="photo">
+  <button onclick="saveProfile()">Continue</button>
+</div>
+
+<!-- HOME -->
+<div id="home" class="section">
+  <h2>Home</h2>
+
+  <h3>Upload Post</h3>
+  <input type="file" id="imageUpload">
+  <button onclick="uploadPost()">Post</button>
+
+  <h3>Creato 🎬</h3>
+  <input type="file" id="videoUpload">
+  <button onclick="uploadVideo()">Upload</button>
+
+  <div id="feed"></div>
+</div>
+
+<!-- SEARCH -->
+<div id="search" class="section">
+  <h2>Search</h2>
+  <input id="searchInput" onkeyup="searchUser()">
+  <div id="results"></div>
+</div>
+
+<!-- CHAT -->
+<div id="chat" class="section">
+  <h2>Chat</h2>
+  <input id="msg">
+  <button onclick="sendMsg()">Send</button>
+  <div id="chatBox"></div>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="section">
+  <h2>Profile</h2>
+  <p id="pname"></p>
+  <p id="pbio"></p>
+  <img id="pphoto">
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button onclick="show('home')">🏠</button>
+  <button onclick="show('search')">🔍</button>
+  <button onclick="show('chat')">💬</button>
+  <button onclick="show('profile')">👤</button>
+</div>
+
+<script>
+
+// 🔥 APNA FIREBASE CONFIG YAHA DALO
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  projectId: "YOUR_ID",
+  storageBucket: "YOUR_BUCKET",
+  messagingSenderId: "YOUR_MSG_ID",
+  appId: "YOUR_APP_ID"
+};
+
 firebase.initializeApp(firebaseConfig);
-const auth=firebase.auth();
-const db=firebase.firestore();
-const st=firebase.storage();
 
-let user=null;
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
 
-auth.onAuthStateChanged(u=>{
-user=u;
-if(u){authBox.style.display="none";init();}
-});
+window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha');
 
-function signup(){
-let name=username.value;
-auth.createUserWithEmailAndPassword(email.value,password.value)
-.then(async res=>{
-await db.collection('users').doc(res.user.email).set({name,email:res.user.email,online:true});
-});
+// SCREEN SWITCH
+function show(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'))
+  document.getElementById(id).classList.add('active')
 }
 
-function login(){
-auth.signInWithEmailAndPassword(email.value,password.value);
+// OTP LOGIN
+function sendOTP(){
+  let phone = document.getElementById("phone").value;
+  auth.signInWithPhoneNumber(phone, window.recaptchaVerifier)
+  .then(res=>{
+    window.confirmationResult = res;
+    show('otpBox');
+  })
+  .catch(e=>alert(e.message));
 }
 
-function init(){
-setOnline(true);
-loadFeed();loadStories();loadProfile();loadNotify();loadUsers();loadDM();
+function verifyOTP(){
+  let code = document.getElementById("otp").value;
+  confirmationResult.confirm(code).then(res=>{
+    checkUser(res.user.uid);
+  });
 }
 
-function setOnline(status){
-if(user){db.collection('users').doc(user.email).update({online:status});}
+// USER CHECK
+function checkUser(uid){
+  db.collection("users").doc(uid).get().then(doc=>{
+    if(doc.exists){
+      loadHome();
+    } else {
+      show('setup');
+    }
+  });
 }
 
-window.onbeforeunload=()=>setOnline(false);
+// SAVE PROFILE
+function saveProfile(){
+  let user = auth.currentUser;
+  let file = document.getElementById("photo").files[0];
 
-/* POST */
-async function post(){
-let f=file.files[0];let url="";
-if(f){let r=st.ref('posts/'+Date.now());await r.put(f);url=await r.getDownloadURL();}
-await db.collection('posts').add({text:text.value,url,user:user.email,time:Date.now(),likes:0});
-notifyAll(user.email+" posted something");
+  let ref = storage.ref("profile/"+user.uid);
+  ref.put(file).then(()=>{
+    ref.getDownloadURL().then(url=>{
+      db.collection("users").doc(user.uid).set({
+        name:document.getElementById("name").value,
+        bio:document.getElementById("bio").value,
+        photo:url
+      });
+      loadHome();
+    });
+  });
 }
 
+// LOAD HOME
+function loadHome(){
+  show('home');
+  loadFeed();
+
+  let user=auth.currentUser;
+  db.collection("users").doc(user.uid).get().then(doc=>{
+    document.getElementById("pname").innerText=doc.data().name;
+    document.getElementById("pbio").innerText=doc.data().bio;
+    document.getElementById("pphoto").src=doc.data().photo;
+  });
+}
+
+// POST IMAGE
+function uploadPost(){
+  let file = document.getElementById("imageUpload").files[0];
+  let ref = storage.ref("posts/"+Date.now());
+  ref.put(file).then(()=>{
+    ref.getDownloadURL().then(url=>{
+      db.collection("posts").add({image:url});
+      loadFeed();
+    });
+  });
+}
+
+// VIDEO UPLOAD
+function uploadVideo(){
+  let file = document.getElementById("videoUpload").files[0];
+  let ref = storage.ref("videos/"+Date.now());
+  ref.put(file).then(()=>{
+    ref.getDownloadURL().then(url=>{
+      db.collection("videos").add({video:url});
+    });
+  });
+}
+
+// FEED
 function loadFeed(){
-db.collection('posts').orderBy('time','desc').onSnapshot(s=>{
-feed.innerHTML="";
-s.forEach(d=>{
-let p=d.data();
-feed.innerHTML+=`
-<div class='card'>
-<b>${p.user}</b>
-<p>${p.text}</p>
-${p.url?`<img src='${p.url}'/>`:''}
-<button onclick="like('${d.id}',${p.likes||0},'${p.user}')">❤️ ${p.likes||0}</button>
-<button onclick="follow('${p.user}')">Follow</button>
-<button onclick="openDM('${p.user}')">DM</button>
-</div>`;
-});
-});
+  db.collection("posts").onSnapshot(snap=>{
+    let feed=document.getElementById("feed");
+    feed.innerHTML="";
+    snap.forEach(doc=>{
+      feed.innerHTML+=`<img src="${doc.data().image}">`;
+    });
+  });
 }
 
-function like(id,l,u){db.collection('posts').doc(id).update({likes:l+1});notifyAll(u+" liked post");}
+// SEARCH
+function searchUser(){
+  let val=document.getElementById("searchInput").value;
+  db.collection("users").where("name","==",val).get().then(snap=>{
+    let res=document.getElementById("results");
+    res.innerHTML="";
+    snap.forEach(doc=>{
+      res.innerHTML+=`${doc.data().name} <button onclick="follow('${doc.id}')">Follow</button>`;
+    });
+  });
+}
 
-/* FOLLOW SYSTEM */
-function follow(to){db.collection('followers').add({from:user.email,to});notifyAll(user.email+" followed "+to);}
+// FOLLOW
+function follow(id){
+  let uid=auth.currentUser.uid;
+  db.collection("follow").add({from:uid,to:id});
+  alert("Followed");
+}
 
-/* STORIES */
-async function uploadStory(){let f=storyFile.files[0];if(!f)return;let r=st.ref('stories/'+Date.now());await r.put(f);let url=await r.getDownloadURL();db.collection('stories').add({url,user:user.email,time:Date.now()});}
-function loadStories(){stories.innerHTML="";db.collection('stories').orderBy('time','desc').onSnapshot(s=>{s.forEach(d=>stories.innerHTML+=`<div class='story'>S</div>`);});}
+// CHAT
+function sendMsg(){
+  let msg=document.getElementById("msg").value;
+  db.collection("chat").add({msg:msg});
+}
 
-/* REELS */
-async function uploadReel(){let f=reelFile.files[0];if(!f)return;let r=st.ref('reels/'+Date.now());await r.put(f);let url=await r.getDownloadURL();db.collection('reels').add({url,user:user.email,time:Date.now()});}
-function loadReels(){feed.innerHTML="";db.collection('reels').orderBy('time','desc').onSnapshot(s=>{s.forEach(d=>feed.innerHTML+=`<div class='reel'><video src='${d.data().url}' controls></video><div class='txt'>${d.data().user}</div></div>`);});}
+// REALTIME CHAT
+db.collection("chat").onSnapshot(snap=>{
+  let box=document.getElementById("chatBox");
+  box.innerHTML="";
+  snap.forEach(doc=>{
+    box.innerHTML+=`<div>${doc.data().msg}</div>`;
+  });
+});
 
-/* USERS */
-function loadUsers(){searchBox.innerHTML="";db.collection('users').onSnapshot(s=>{s.forEach(u=>{searchBox.innerHTML+=`<div class='card'>${u.data().name} ${u.data().online?"🟢":"⚫"}<button onclick="follow('${u.id}')">Follow</button></div>`});});}
+</script>
 
-function searchUsers(){let q=search.value.toLowerCase();searchBox.innerHTML="";db.collection('users').get().then(s=>{s.forEach(u=>{if((u.data().name||"").toLowerCase().includes(q)){searchBox.innerHTML+=`<div class='card'>${u.data().name}</div>`}})});}
-
-/* NOTIFY */
-function notifyAll(msg){db.collection('notifications').add({msg,time:Date.now()});}
-function loadNotify(){db.collection('notifications').orderBy('time','desc').onSnapshot(s=>{notify.innerHTML="";s.forEach(n=>notify.innerHTML+=`<div class='card small'>${n.data().msg}</div>`);});}
-
-/* PROFILE */
-function loadProfile(){profile.innerHTML=`<h3>Profile</h3><p>${user.email}</p>`;}
-
-/* DM */
-function sendDM(){db.collection('dm').add({from:user.email,to:dmTo.value,msg:dmMsg.value,time:Date.now()});dmMsg.value="";}
-function loadDM(){db.collection('dm').orderBy('time','desc').onSnapshot(s=>{dmBox.innerHTML="";s.forEach(d=>{let x=d.data();if(x.to===user.email||x.from===user.email){dmBox.innerHTML+=`<div class='card small'><b>${x.from}</b>: ${x.msg}</div>`}})});}
-function openDM(u){dmTo.value=u;}
-</script></body>
-</html>                                                                                                 
+</body>
+</html>
