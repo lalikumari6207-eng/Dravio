@@ -1,203 +1,155 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                }<!DOCTYPE html>
-<html>
+  <!DOCTYPE html><html lang="en">
 <head>
-  <title>Dravio - Lyzonix</title>
-
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-
-  <style>
-    body { margin:0; font-family:Arial; background:#000; color:#fff; }
-
-    /* TOP BAR */
-    .top {
-      position:fixed; top:0; width:100%;
-      background:#111; padding:10px;
-      display:flex; justify-content:space-between;
-      align-items:center;
-    }
-
-    .top h2 { color:#ff2d55; margin:0; }
-
-    /* NAV */
-    .nav {
-      position:fixed; bottom:0;
-      width:100%; background:#111;
-      display:flex; justify-content:space-around;
-      padding:10px;
-    }
-
-    .nav button {
-      background:none; border:none;
-      color:white; font-size:18px;
-    }
-
-    /* SCREENS */
-    .screen { padding-top:70px; padding-bottom:70px; display:none; }
-
-    .active { display:block; }
-
-    input, button {
-      width:90%;
-      margin:10px;
-      padding:12px;
-      border-radius:10px;
-      border:none;
-    }
-
-    button { background:#ff2d55; color:white; }
-
-    /* POSTS */
-    .post {
-      background:#111;
-      margin:10px;
-      padding:10px;
-      border-radius:10px;
-    }
-
-    img { width:100%; border-radius:10px; }
-
-    /* SEARCH */
-    .searchBox {
-      width:90%;
-      margin:10px;
-      padding:10px;
-    }
-  </style>
-</head>
-
-<body>
-
-<!-- TOP -->
-<div class="top">
-  <h2>DRAVIO</h2>
-  <span>Lyzonix</span>
-</div>
-
-<!-- LOGIN -->
-<div id="login" class="screen active">
-  <h3>Login / Signup</h3>
-
-  <input id="email" placeholder="Email or Phone">
-  <input id="password" placeholder="Password">
-
-  <button onclick="signup()">Signup</button>
-  <button onclick="login()">Login</button>
-</div>
-
-<!-- HOME FEED -->
-<div id="home" class="screen">
-  <h3>Feed</h3>
-  <div id="posts"></div>
-</div>
-
-<!-- SEARCH -->
-<div id="search" class="screen">
-  <input class="searchBox" placeholder="Search users...">
-</div>
-
-<!-- UPLOAD -->
-<div id="upload" class="screen">
-  <input id="caption" placeholder="Write caption">
-  <input type="file" id="file">
-  <button onclick="post()">Upload Post</button>
-</div>
-
-<!-- PROFILE -->
-<div id="profile" class="screen">
-  <h3>Your Profile</h3>
-  <p id="userInfo"></p>
-</div>
-
-<!-- NAV -->
-<div class="nav">
-  <button onclick="show('home')">🏠</button>
-  <button onclick="show('search')">🔍</button>
-  <button onclick="show('upload')">➕</button>
-  <button onclick="show('profile')">👤</button>
-</div>
-
-<script>
-/* FIREBASE CONFIG (ADD YOURS) */
-const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  projectId: "YOUR_ID",
-};
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DRAVIO V3 + V4 GOD MODE 🚀</title><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script><style>
+body{margin:0;font-family:Arial;background:#0b0b14;color:#fff}
+header{padding:12px;text-align:center;background:#15152a;font-weight:bold;position:sticky;top:0}
+.container{max-width:520px;margin:auto;padding:10px}
+.card{background:#1a1a33;padding:12px;border-radius:12px;margin-top:10px}
+input,textarea,button{width:100%;padding:10px;margin-top:8px;border-radius:10px;border:none}
+button{background:#ff2d55;color:#fff;font-weight:bold}
+.nav{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#111;padding:10px}
+.nav button{background:none;color:#fff;font-size:12px}
+.post img,video{width:100%;border-radius:10px;margin-top:8px}
+.storyRow{display:flex;overflow-x:auto;gap:8px;padding:8px}
+.story{min-width:55px;height:55px;border-radius:50%;background:linear-gradient(45deg,pink,purple);display:flex;align-items:center;justify-content:center;font-size:10px}
+.reel{height:70vh;background:black;border-radius:12px;overflow:hidden;position:relative;margin-top:10px}
+.reel video{width:100%;height:100%;object-fit:cover}
+.reel .txt{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,0.4);padding:5px;border-radius:8px}
+.small{font-size:12px;color:#aaa}
+.profileBox{background:#22224a;padding:12px;border-radius:12px;margin-top:10px}
+</style></head>
+<body><header>DRAVIO V3 + V4 GOD MODE 🚀</header><div class="container"><!-- AUTH --><div class="card" id="authBox">
+<h3>Login / Signup</h3>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<input id="username" placeholder="Username">
+<button onclick="signup()">Signup</button>
+<button onclick="login()">Login</button>
+</div><!-- STORIES --><div class="storyRow" id="stories"></div><!-- FEED --><div id="feed"></div><!-- CREATE POST --><div class="card">
+<h3>Create Post</h3>
+<textarea id="text"></textarea>
+<input type="file" id="file">
+<button onclick="post()">Post</button>
+</div><!-- STORIES UPLOAD --><div class="card">
+<h3>Upload Story</h3>
+<input type="file" id="storyFile">
+<button onclick="uploadStory()">Upload</button>
+</div><!-- REELS --><div class="card">
+<h3>Reels Upload</h3>
+<input type="file" id="reelFile">
+<button onclick="uploadReel()">Upload Reel</button>
+</div><!-- SEARCH + USERS --><div class="card">
+<h3>Search Users</h3>
+<input id="search" placeholder="Search username" onkeyup="searchUsers()">
+<div id="searchBox"></div>
+</div><!-- NOTIFICATIONS --><div class="card">
+<h3>Notifications 🔔</h3>
+<div id="notify"></div>
+</div><!-- PROFILE --><div class="profileBox" id="profile"></div><!-- DM INBOX --><div class="card">
+<h3>DM Inbox 💬</h3>
+<input id="dmTo" placeholder="To username/email">
+<input id="dmMsg" placeholder="Message">
+<button onclick="sendDM()">Send</button>
+<div id="dmBox"></div>
+</div></div><div class="nav">
+<button onclick="loadFeed()">Home</button>
+<button onclick="loadReels()">Reels</button>
+<button onclick="loadUsers()">Users</button>
+<button onclick="loadNotify()">Notify</button>
+<button onclick="loadProfile()">Profile</button>
+</div><script>
+const firebaseConfig={apiKey:"YOUR",authDomain:"YOUR",projectId:"YOUR",storageBucket:"YOUR"};
 firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth();
+const db=firebase.firestore();
+const st=firebase.storage();
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+let user=null;
 
-/* NAV */
-function show(page){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(page).classList.add('active');
-}
+auth.onAuthStateChanged(u=>{
+user=u;
+if(u){authBox.style.display="none";init();}
+});
 
-/* SIGNUP */
 function signup(){
-  let email = document.getElementById("email").value;
-  let pass = document.getElementById("password").value;
-
-  auth.createUserWithEmailAndPassword(email, pass)
-  .then(u=>{
-    alert("Account Created");
-    show('home');
-    loadPosts();
-  });
+let name=username.value;
+auth.createUserWithEmailAndPassword(email.value,password.value)
+.then(async res=>{
+await db.collection('users').doc(res.user.email).set({name,email:res.user.email,online:true});
+});
 }
 
-/* LOGIN */
 function login(){
-  let email = document.getElementById("email").value;
-  let pass = document.getElementById("password").value;
-
-  auth.signInWithEmailAndPassword(email, pass)
-  .then(u=>{
-    alert("Logged In");
-    show('home');
-    loadPosts();
-  });
+auth.signInWithEmailAndPassword(email.value,password.value);
 }
+
+function init(){
+setOnline(true);
+loadFeed();loadStories();loadProfile();loadNotify();loadUsers();loadDM();
+}
+
+function setOnline(status){
+if(user){db.collection('users').doc(user.email).update({online:status});}
+}
+
+window.onbeforeunload=()=>setOnline(false);
 
 /* POST */
-function post(){
-  let caption = document.getElementById("caption").value;
-  let file = document.getElementById("file").files[0];
-
-  let reader = new FileReader();
-  reader.onload = function(){
-    db.collection("posts").add({
-      caption: caption,
-      image: reader.result,
-      time: Date.now()
-    });
-  }
-  reader.readAsDataURL(file);
-
-  alert("Posted!");
+async function post(){
+let f=file.files[0];let url="";
+if(f){let r=st.ref('posts/'+Date.now());await r.put(f);url=await r.getDownloadURL();}
+await db.collection('posts').add({text:text.value,url,user:user.email,time:Date.now(),likes:0});
+notifyAll(user.email+" posted something");
 }
 
-/* LOAD POSTS */
-function loadPosts(){
-  db.collection("posts").orderBy("time","desc")
-  .onSnapshot(snapshot=>{
-    let html = "";
-    snapshot.forEach(doc=>{
-      let p = doc.data();
-      html += `
-        <div class="post">
-          <p>${p.caption}</p>
-          <img src="${p.image}">
-        </div>
-      `;
-    });
-    document.getElementById("posts").innerHTML = html;
-  });
+function loadFeed(){
+db.collection('posts').orderBy('time','desc').onSnapshot(s=>{
+feed.innerHTML="";
+s.forEach(d=>{
+let p=d.data();
+feed.innerHTML+=`
+<div class='card'>
+<b>${p.user}</b>
+<p>${p.text}</p>
+${p.url?`<img src='${p.url}'/>`:''}
+<button onclick="like('${d.id}',${p.likes||0},'${p.user}')">❤️ ${p.likes||0}</button>
+<button onclick="follow('${p.user}')">Follow</button>
+<button onclick="openDM('${p.user}')">DM</button>
+</div>`;
+});
+});
 }
-</script>
 
-</body>
-</html>
+function like(id,l,u){db.collection('posts').doc(id).update({likes:l+1});notifyAll(u+" liked post");}
+
+/* FOLLOW SYSTEM */
+function follow(to){db.collection('followers').add({from:user.email,to});notifyAll(user.email+" followed "+to);}
+
+/* STORIES */
+async function uploadStory(){let f=storyFile.files[0];if(!f)return;let r=st.ref('stories/'+Date.now());await r.put(f);let url=await r.getDownloadURL();db.collection('stories').add({url,user:user.email,time:Date.now()});}
+function loadStories(){stories.innerHTML="";db.collection('stories').orderBy('time','desc').onSnapshot(s=>{s.forEach(d=>stories.innerHTML+=`<div class='story'>S</div>`);});}
+
+/* REELS */
+async function uploadReel(){let f=reelFile.files[0];if(!f)return;let r=st.ref('reels/'+Date.now());await r.put(f);let url=await r.getDownloadURL();db.collection('reels').add({url,user:user.email,time:Date.now()});}
+function loadReels(){feed.innerHTML="";db.collection('reels').orderBy('time','desc').onSnapshot(s=>{s.forEach(d=>feed.innerHTML+=`<div class='reel'><video src='${d.data().url}' controls></video><div class='txt'>${d.data().user}</div></div>`);});}
+
+/* USERS */
+function loadUsers(){searchBox.innerHTML="";db.collection('users').onSnapshot(s=>{s.forEach(u=>{searchBox.innerHTML+=`<div class='card'>${u.data().name} ${u.data().online?"🟢":"⚫"}<button onclick="follow('${u.id}')">Follow</button></div>`});});}
+
+function searchUsers(){let q=search.value.toLowerCase();searchBox.innerHTML="";db.collection('users').get().then(s=>{s.forEach(u=>{if((u.data().name||"").toLowerCase().includes(q)){searchBox.innerHTML+=`<div class='card'>${u.data().name}</div>`}})});}
+
+/* NOTIFY */
+function notifyAll(msg){db.collection('notifications').add({msg,time:Date.now()});}
+function loadNotify(){db.collection('notifications').orderBy('time','desc').onSnapshot(s=>{notify.innerHTML="";s.forEach(n=>notify.innerHTML+=`<div class='card small'>${n.data().msg}</div>`);});}
+
+/* PROFILE */
+function loadProfile(){profile.innerHTML=`<h3>Profile</h3><p>${user.email}</p>`;}
+
+/* DM */
+function sendDM(){db.collection('dm').add({from:user.email,to:dmTo.value,msg:dmMsg.value,time:Date.now()});dmMsg.value="";}
+function loadDM(){db.collection('dm').orderBy('time','desc').onSnapshot(s=>{dmBox.innerHTML="";s.forEach(d=>{let x=d.data();if(x.to===user.email||x.from===user.email){dmBox.innerHTML+=`<div class='card small'><b>${x.from}</b>: ${x.msg}</div>`}})});}
+function openDM(u){dmTo.value=u;}
+</script></body>
+</html>                                                                                                 
